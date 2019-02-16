@@ -5,6 +5,7 @@
  */
 package com.edu.cecar.pataconeraexpress.Ejb;
 
+import com.edu.cecar.pataconeraexpress.entities.Categoria;
 import com.edu.cecar.pataconeraexpress.entities.Producto;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,12 +33,12 @@ public class ProductoFacade extends AbstractFacade<Producto> {
         super(Producto.class);
     }
     public List<Producto> findByPrice(Double price){
-       TypedQuery<Producto> productosByPrice = getEntityManager().createNamedQuery("Produto.findByPrecioProducto", Producto.class);
+       TypedQuery<Producto> productosByPrice = getEntityManager().createNamedQuery("Producto.findByPrecioProducto", Producto.class);
         return productosByPrice.setParameter("precioProducto",price).getResultList();
     }
 
     public List<Producto> findByName(String nombre) {
-        TypedQuery<Producto> productosByPrice = getEntityManager().createNamedQuery("Produto.findByNombreProducto", Producto.class);
+        TypedQuery<Producto> productosByPrice = getEntityManager().createNamedQuery("Prodcuto.findByNombreProducto", Producto.class);
         return productosByPrice.setParameter("nombreProducto",nombre).getResultList();
     }
 
@@ -49,5 +50,24 @@ public class ProductoFacade extends AbstractFacade<Producto> {
         });
         return productosByCat;
     }
-    
+     public List<Producto> findByFeatures(String nombre,int idcategoria,double precio) {
+           TypedQuery<Producto> productos = getEntityManager()
+                   .createNamedQuery("Producto.findByFeatures", Producto.class);
+           productos.setParameter("nombre","%"+nombre+"%");
+          // productos.setParameter("desc","%"+des+"%");
+           productos.setParameter("precio",precio);
+           productos.setParameter("idCat",new Categoria(idcategoria));
+        return productos.getResultList();
+    }
+
+    public List<Producto> findByFeatures(int idCat, double precio) {
+        TypedQuery<Producto> productos = getEntityManager()
+                   .createNamedQuery("Producto.findByCatAndPrice", Producto.class);
+           //productos.setParameter("nombre","%"+nombre+"%");
+          // productos.setParameter("desc","%"+des+"%");
+           productos.setParameter("precio",precio);
+           productos.setParameter("idCat",new Categoria(idCat));
+                   return productos.getResultList();
+
+    }
 }

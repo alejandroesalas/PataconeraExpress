@@ -12,6 +12,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.GET;
@@ -20,6 +21,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -51,16 +53,33 @@ public class ProductosService {
     @Consumes("application/json")
     public Response create(Producto entity) {
         if (entity!=null) {
+            
               productoFacade.create(entity);
               return Response.status(Response.Status.OK)
-            .entity("Objeto creado con exito")
+            .entity("Producto creado con exito")
             .build();
         }else{
              return Response.status(Response.Status.NOT_ACCEPTABLE)
-            .entity("El objeto no es aceptable")
+            .entity("El producto no es aceptable")
             .build();
         }
        
+    }
+    @GET
+    @Produces("application/json")
+   // @Consumes("application/json")
+    @Path("search")
+    public String findProductsByFeatures(@QueryParam("nombre")String nombre,
+            @DefaultValue("0")@QueryParam("precio")double precio,
+            @QueryParam("idCat")int idCat){
+           if (nombre!=null) {
+                       return procesadorJson.toJson(productoFacade.findByFeatures(nombre, idCat, precio));  
+        }
+          // System.out.println("nombre :"+nombre);
+           return procesadorJson.toJson(productoFacade.findByFeatures(idCat, precio));
+//        System.out.println("desc :"+descripcion);
+//        System.out.println("precio :"+precio);
+//        System.out.println("idCat :"+idCat);      
     }
      @GET
      @Produces("application/json")
@@ -94,7 +113,8 @@ public class ProductosService {
 //            .entity(procesadorJson.toJson(procesadorJson.toJson(productos)))
 //            .build();
     }
-       @GET
+    @Produces("application/json")
+    @GET
     @Path("precio/{price}")
     public String findByPrice(@PathParam("price")Double price){
        List<Producto> productosByPrice = productoFacade.findByPrice(price);

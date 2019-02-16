@@ -23,7 +23,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -36,7 +35,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Producto.findByIdprodutos", query = "SELECT p FROM Producto p WHERE p.idprodutos = :idprodutos"),
     @NamedQuery(name = "Producto.findByNombreProducto", query = "SELECT p FROM Producto p WHERE p.nombreProducto = :nombreProducto"),
     @NamedQuery(name = "Producto.findByDescripcionProducto", query = "SELECT p FROM Producto p WHERE p.descripcionProducto = :descripcionProducto"),
-    @NamedQuery(name = "Producto.findByPrecioProducto", query = "SELECT p FROM Producto p WHERE p.precioProducto = :precioProducto")})
+    @NamedQuery(name = "Producto.findByPrecioProducto", query = "SELECT p FROM Producto p WHERE p.precioProducto = :precioProducto"),
+    @NamedQuery(name = "Producto.findByFeatures",query="SELECT p FROM Producto p WHERE P.nombreProducto LIKE :nombre AND p.precioProducto>= :precio AND p.categoriasIdcategoria =:idCat"),
+    @NamedQuery(name = "Producto.findByCatAndPrice",query ="SELECT p FROM Producto p WHERE p.precioProducto>= :precio AND p.categoriasIdcategoria =:idCat") 
+    })
 public class Producto implements Serializable {
 
     private static final long serialVersionUID = 1L;
