@@ -135,9 +135,19 @@ public class ProductosService {
      @GET
     @Path("categoria/{cat}")
     public String findByCategory(@PathParam("cat")String categoria){
-         System.out.println(categoria);
+         //System.out.println(categoria);
         List<Producto> productos = productoFacade.findByCategory(categoria);
        
+       return  procesadorJson.toJson(productos);
+//            .status(Response.Status.OK)
+//            .entity(procesadorJson.toJson(procesadorJson.toJson(productos)))
+//            .build();
+    }
+     @GET
+    @Path("categoria/id/{id}")
+    public String findByCategoryId(@PathParam("id")int categoria){
+        // System.out.println(categoria);
+        List<Producto> productos = productoFacade.findByCategory(categoria);
        return  procesadorJson.toJson(productos);
 //            .status(Response.Status.OK)
 //            .entity(procesadorJson.toJson(procesadorJson.toJson(productos)))
@@ -152,7 +162,7 @@ public class ProductosService {
             
               productoFacade.edit(entity);
               return Response.status(Response.Status.OK)
-            .entity("Producto creado con exito")
+            .entity("Producto modificado con exito")
             .build();
         }else{
              return Response.status(Response.Status.NOT_ACCEPTABLE)

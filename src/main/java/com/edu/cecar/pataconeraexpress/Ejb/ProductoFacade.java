@@ -39,15 +39,41 @@ public class ProductoFacade extends AbstractFacade<Producto> {
 
     public Producto findByName(String nombre) {
         TypedQuery<Producto> productosByPrice = getEntityManager().createNamedQuery("Producto.findByNombreProducto", Producto.class);
-        return productosByPrice.setParameter("nombreProducto",nombre).getSingleResult();
+        return productosByPrice.setParameter("nombreProducto",nombre).getResultList().get(0);
     }
 
     public List<Producto> findByCategory(String categoria) {
+        // System.out.println(categoria);
           List<Producto> productos = findAll();
          List<Producto> productosByCat = new ArrayList<>();
-         productos.stream().filter((producto) -> (producto.getCategoriasIdcategoria().getNombreCat().equals(categoria))).forEachOrdered((producto) -> {
-             productosByCat.add(producto);
-        });
+         
+         productos.stream().filter((producto) -> {
+             if (producto.getCategoriasIdcategoria()!= null) {
+                 return producto.getCategoriasIdcategoria().getNombreCat().equalsIgnoreCase(categoria);        
+             }else
+                 return false;
+         }).forEachOrdered((t) -> { 
+             productosByCat.add(t);
+         });
+         
+        return productosByCat;
+    }
+    public List<Producto> findByCategory(int categoria) {
+         //System.out.println(categoria);
+          List<Producto> productos = findAll();
+         // System.out.println(productos.get(0).getCategoriasIdcategoria());
+         List<Producto> productosByCat = new ArrayList<>();
+         productos.stream().filter((producto) -> {
+             if (producto.getCategoriasIdcategoria()!= null) {
+                 return producto.getCategoriasIdcategoria().getIdcategoria()==categoria;        
+             }else
+                 return false;
+         }).forEachOrdered((t) -> { 
+             productosByCat.add(t);
+         });
+//         productos.stream().filter((producto) -> (categoria==producto.getCategoriasIdcategoria().getIdcategoria())).forEachOrdered((producto) -> {
+//             productosByCat.add(producto);
+//        });
         return productosByCat;
     }
      public List<Producto> findByFeatures(String nombre,int idcategoria,double precio) {
