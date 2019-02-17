@@ -37,9 +37,9 @@ public class ProductoFacade extends AbstractFacade<Producto> {
         return productosByPrice.setParameter("precioProducto",price).getResultList();
     }
 
-    public List<Producto> findByName(String nombre) {
-        TypedQuery<Producto> productosByPrice = getEntityManager().createNamedQuery("Prodcuto.findByNombreProducto", Producto.class);
-        return productosByPrice.setParameter("nombreProducto",nombre).getResultList();
+    public Producto findByName(String nombre) {
+        TypedQuery<Producto> productosByPrice = getEntityManager().createNamedQuery("Producto.findByNombreProducto", Producto.class);
+        return productosByPrice.setParameter("nombreProducto",nombre).getSingleResult();
     }
 
     public List<Producto> findByCategory(String categoria) {

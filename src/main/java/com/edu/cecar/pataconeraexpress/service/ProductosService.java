@@ -126,7 +126,7 @@ public class ProductosService {
     @GET
     @Path("nombre/{nombre}")
     public String findByName(@PathParam("nombre")String nombre){
-        List<Producto> productosByName = productoFacade.findByName(nombre);
+        Producto productosByName = productoFacade.findByName(nombre);
         return procesadorJson.toJson(productosByName);
 //            .status(Response.Status.OK)
 //            .entity(procesadorJson.toJson(procesadorJson.toJson(productosByName)))
@@ -145,9 +145,21 @@ public class ProductosService {
     }
      
     @PUT
+    @Consumes("application/json")
     @Path("edit/{id}")
-    public void edit(@PathParam("id") Integer id, Producto entity) {
-        productoFacade.edit(entity);
+    public Response edit(@PathParam("id") Integer id, Producto entity) {
+        if (entity!=null) {
+            
+              productoFacade.edit(entity);
+              return Response.status(Response.Status.OK)
+            .entity("Producto creado con exito")
+            .build();
+        }else{
+             return Response.status(Response.Status.NOT_ACCEPTABLE)
+            .entity("El producto no es aceptable")
+            .build();
+        }
+        //productoFacade.edit(entity);
     }
 
     @DELETE
