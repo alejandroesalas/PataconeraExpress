@@ -38,6 +38,7 @@ public Set<Class<?>> getClasses() {
         resources.add(com.edu.cecar.pataconeraexpress.Utils.CustomJsonProvider.class);
         resources.add(com.edu.cecar.pataconeraexpress.Utils.JacksonFeature.class);
         resources.add(com.edu.cecar.pataconeraexpress.service.CategoriaService.class);
+        resources.add(com.edu.cecar.pataconeraexpress.service.PedidoService.class);
         resources.add(com.edu.cecar.pataconeraexpress.service.ProductosService.class);
     }
     
