@@ -5,6 +5,7 @@
  */
 package com.edu.cecar.pataconeraexpress.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.List;
@@ -62,6 +63,7 @@ public class Producto implements Serializable {
     @Column(name = "precio_producto")
     private double precioProducto;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "produtosIdprodutos")
+    @JsonBackReference
     private List<DetallePedido> detallePedidoList;
     @JoinColumn(name = "categorias_idcategoria", referencedColumnName = "idcategoria")
     @ManyToOne

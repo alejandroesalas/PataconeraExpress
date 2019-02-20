@@ -5,6 +5,7 @@
  */
 package com.edu.cecar.pataconeraexpress.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -51,6 +52,7 @@ public class Pedido implements Serializable {
     @NotNull
     @Column(name = "fecha_pedido")
     @Temporal(TemporalType.TIMESTAMP)
+    //@JsonDeserialize(using=CustomerDateAndTimeDeserialize.class)
     private Date fechaPedido;
     @Basic(optional = false)
     @NotNull
@@ -75,6 +77,7 @@ public class Pedido implements Serializable {
     @NotNull
     @Column(name = "PrecioTotal")
     private double precioTotal;
+    @JsonBackReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pedidosIdpedido")
     private List<DetallePedido> detallePedidoList;
 

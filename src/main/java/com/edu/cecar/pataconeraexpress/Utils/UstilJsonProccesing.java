@@ -5,25 +5,25 @@
  */
 package com.edu.cecar.pataconeraexpress.Utils;
 
-import com.edu.cecar.pataconeraexpress.entities.Producto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Singleton;
+import javax.ejb.Startup;
 
 /**
  *
  * @author usuario
  */
+@Startup
 @Singleton
 public class UstilJsonProccesing {
     
     private final ObjectMapper mapper;
-
+    
     public UstilJsonProccesing() {
-        this.mapper = new ObjectMapper() {
-        };
+        this.mapper = new ObjectMapper();
     }
     public ObjectMapper getMapeador(){
         return mapper;

@@ -5,6 +5,7 @@
  */
 package com.edu.cecar.pataconeraexpress.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -51,6 +52,7 @@ public class DetallePedido implements Serializable {
     private Pedido pedidosIdpedido;
     @JoinColumn(name = "produtos_idprodutos", referencedColumnName = "idprodutos")
     @ManyToOne(optional = false)
+    @JsonManagedReference
     private Producto produtosIdprodutos;
 
     public DetallePedido() {

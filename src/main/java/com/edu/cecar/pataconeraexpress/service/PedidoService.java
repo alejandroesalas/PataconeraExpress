@@ -9,6 +9,8 @@ import com.edu.cecar.pataconeraexpress.Ejb.PedidoFacade;
 import com.edu.cecar.pataconeraexpress.Ejb.ProductoFacade;
 import com.edu.cecar.pataconeraexpress.Utils.UstilJsonProccesing;
 import com.edu.cecar.pataconeraexpress.entities.Pedido;
+import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.ws.rs.core.Context;
@@ -18,8 +20,6 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PUT;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
@@ -29,9 +29,9 @@ import javax.ws.rs.core.Response;
  */
 @Path("pedidos")
 public class PedidoService {
-     @Inject
+     @EJB
     private PedidoFacade  pedidoFace;
-    @Inject 
+    @EJB 
     private UstilJsonProccesing procesadorJson;
 
     @Context
@@ -47,15 +47,28 @@ public class PedidoService {
     @Path("create")
     @Consumes("application/json")
     public Response create(Pedido entity) {
-        if (entity!=null) {         
+        if (entity!=null) { 
+            entity.setFechaPedido(new Date());
+            entity.getDetallePedidoList().forEach((t) -> {
+                t.setPedidosIdpedido(entity);
+            });
               pedidoFace.create(entity);
               return Response.status(Response.Status.OK)
-            .entity("Producto creado con exito")
+            .entity("Pedido registrado con exito")
             .build();
         }else{
              return Response.status(Response.Status.NOT_ACCEPTABLE)
-            .entity("El producto no es aceptable")
+            .entity("El pedido no es aceptable")
             .build();
         }  
+    }
+       @GET
+    public String findAll() {
+           List<Pedido> productos = pedidoFace.findAll();
+           System.out.println(productos.get(0).getFechaPedido());
+        return procesadorJson.toJson(productos);
+//            .status(Response.Status.OK)
+//            .entity(procesadorJson.toJson(procesadorJson.toJson(productos)))
+//            .build();
     }
 }
